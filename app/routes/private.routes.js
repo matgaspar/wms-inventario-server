@@ -12,8 +12,8 @@ routes.post('/usuario', UsuarioController.create);
 routes.get('/empresas', EmpresaController.index);
 
 routes.get('/produtos', ProdutosController.index);
-routes.get('/produtos/:id', ProdutosController.read);
-routes.get('/produtos/:codBarra/barcode', ProdutosController.readBarcode);
+routes.get('/produto/:id', ProdutosController.read);
+routes.get('/produto/:codBarra/barcode', ProdutosController.readBarcode);
 
 routes.get('/inventarios', InventarioController.index);
 routes.get('/inventario/:id', InventarioController.read);

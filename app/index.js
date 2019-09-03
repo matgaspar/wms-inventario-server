@@ -74,8 +74,8 @@ app.post('/login', async (req, res) => {
 });
 
 // app.use('/public', require('./routes/public.routes'));
+app.use('/public', require('./routes/public.routes'));
 app.use('/private', passport.authenticate('jwt', { session: false }), require('./routes/private.routes'));
-app.use('/public', require('./routes/private.routes'));
 
 
 // catch 404 and forward to error handler

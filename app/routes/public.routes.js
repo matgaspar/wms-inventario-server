@@ -1,9 +1,8 @@
 const express = require('express');
-// const UsuarioController = require('../controllers/UsuarioController');
-// const EmpresaController = require('../controllers/EmpresaController');
-// const ProdutosController = require('../controllers/ProdutosController');
-// const InventarioController = require('../controllers/InventarioController');
+const EmpresaController = require('../controllers/EmpresaController');
 
 const routes = new express.Router();
+
+routes.get('/empresas', EmpresaController.index);
 
 module.exports = routes;

@@ -33,14 +33,18 @@ module.exports = {
 
   async create(req, res) {
     try {
+      const usuario = req.user.id;
       const { id } = req.params;
       const {
-        produto, contagem, usuario, quantidade,
+        produto, contagem, quantidade,
       } = req.body;
       const [err, produtoinventario] = await to(
         ProdutosInventario.findOrCreate({
           where: {
-            InventarioId: id, ProdutoId: produto, ContagemId: contagem, UsuarioId: usuario,
+            inventario: id,
+            produtos: produto,
+            contagem,
+            usuario,
           },
           defaults: { quantidade },
         }).then(([produtoInvent, created]) => {
@@ -75,7 +79,7 @@ module.exports = {
       const { id } = req.params;
       const [err, contagem] = await to(
         Contagem.findOne({
-          where: { ativo: true, finalizado: null },
+          where: { inventario: id, ativo: true, finalizado: { [Op.not]: true } },
         }),
       );
       if (err) return ReE(res, err, 422);

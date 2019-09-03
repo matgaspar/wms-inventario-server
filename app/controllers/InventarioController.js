@@ -41,10 +41,10 @@ module.exports = {
       const [err, produtoinventario] = await to(
         ProdutosInventario.findOrCreate({
           where: {
-            inventario: id,
-            produtos: produto,
-            contagem,
-            usuario,
+            InventarioId: id,
+            ProdutoId: produto,
+            ContagemId: contagem,
+            UsuarioId: usuario,
           },
           defaults: { quantidade },
         }).then(([produtoInvent, created]) => {

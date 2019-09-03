@@ -76,14 +76,20 @@ module.exports = {
 
   async getContagem(req, res) {
     try {
-      const { id } = req.params;
+      const { body, params } = req;
+      const page = parseInt(body.page, 0) || Pagination.default.page;
+      const paginate = parseInt(body.paginate, 0) || Pagination.default.paginate;
       const [err, contagem] = await to(
-        Contagem.findOne({
-          where: { inventario: id, ativo: true, finalizado: { [Op.not]: true } },
+        Contagem.paginate({
+          page,
+          paginate,
+          where: { inventario: params.id, ativo: true, finalizado: { [Op.not]: true } },
         }),
       );
       if (err) return ReE(res, err, 422);
-      return ReS(res, contagem);
+      const { docs, ...totals } = contagem;
+
+      return ReS(res, { data: docs || null, ...totals });
     } catch (err) {
       return ReE(res, err, 422);
     }

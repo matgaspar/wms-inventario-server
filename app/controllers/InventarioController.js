@@ -1,5 +1,5 @@
 const {
-  Sequelize, Inventario, Contagem, ProdutosInventario, Empresa,
+  Sequelize, Inventario, Contagem, ProdutosInventario, Empresa, Produtos,
 } = require('../models');
 const { ReS, ReE, to } = require('../services/util.service');
 const { Pagination } = require('../config');
@@ -94,6 +94,30 @@ module.exports = {
       return ReE(res, err, 422);
     }
   },
+
+  async getProdutosInventario(req, res) {
+    try {
+      const { body, params } = req;
+      const { id } = req.user;
+      const page = parseInt(body.page, 0) || Pagination.default.page;
+      const paginate = parseInt(body.paginate, 0) || Pagination.default.paginate;
+      const [err, produtos] = await to(
+        Inventario.paginate({
+          page,
+          paginate,
+          where: { id: params.id },
+          include: { model: Produtos, through: { where: { UsuarioId: id, ContagemId: body.contagem }, attributes: [] } },
+        }),
+      );
+      if (err) return ReE(res, err, 422);
+      const { docs, ...totals } = produtos;
+
+      return ReS(res, { data: docs || null, ...totals });
+    } catch (err) {
+      return ReE(res, err, 422);
+    }
+  },
+
   async getInventarioEmpresa(req, res) {
     try {
       const { id } = req.params;

@@ -16,6 +16,7 @@ routes.get('/inventarios', InventarioController.index);
 routes.get('/inventario/:id', InventarioController.read);
 routes.get('/inventario/empresa/:id', InventarioController.getInventarioEmpresa);
 routes.get('/inventario/:id/contagem', InventarioController.getContagem);
+routes.get('/inventario/:id/produtos', InventarioController.getProdutosInventario);
 
 routes.post('/inventario/:id', InventarioController.create);
 
